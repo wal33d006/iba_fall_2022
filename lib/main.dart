@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iba_fall_2022/new_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,6 +42,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  Color iconColor = Colors.grey;
+
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -73,26 +76,56 @@ class _MyHomePageState extends State<MyHomePage> {
       // appBar: AppBar(
       //   title: Text(widget.title),
       // ),
-      body: ListView(
-        children: users
-            .map(
-              (user) => ListTile(
-                title: Text(user.name),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(user.email),
-                    Text('Hello'),
-                    Text('Hello'),
-                    Text('Hello'),
-                  ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            ListTile(
+              title: Text('Favorite'),
+              trailing: InkWell(
+                onTap: () {
+                  setState(() {
+                    iconColor = Colors.red;
+                  });
+                },
+                child: Icon(
+                  Icons.favorite,
+                  color: iconColor,
                 ),
               ),
-            )
-            .toList(),
+            ),
+            Expanded(
+              child: ListView(
+                children: users
+                    .map(
+                      (user) => ListTile(
+                        title: Text(user.name),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(user.email),
+                            Text('Hello'),
+                            Text('Hello'),
+                            Text('Hello'),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => NewScreen(
+                counter: _counter,
+              ),
+            ),
+          );
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
