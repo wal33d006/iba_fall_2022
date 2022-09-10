@@ -21,6 +21,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class HelloPage extends StatefulWidget {
+  const HelloPage({Key? key}) : super(key: key);
+
+  @override
+  _HelloPageState createState() => _HelloPageState();
+}
+
+class _HelloPageState extends State<HelloPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
 
@@ -73,9 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text(widget.title),
-      // ),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -92,6 +107,22 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: iconColor,
                 ),
               ),
+            ),
+            Text(
+              _counter.toString(),
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            ElevatedButton(
+              onPressed: _incrementCounter,
+              child: Text('Counter'),
+            ),
+            TextFormField(
+              onChanged: (value) {
+                print(value);
+              },
+            ),
+            MyWidget(
+              onTap: () {},
             ),
             Expanded(
               child: ListView(
@@ -117,18 +148,45 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
+        onPressed: () async {
+          final updatedCounter = await Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => NewScreen(
                 counter: _counter,
               ),
             ),
           );
+          if (updatedCounter != null) {
+            setState(() {
+              _counter = updatedCounter;
+            });
+          }
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({
+    Key? key,
+    required this.onTap,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Text('Waleed'),
+          Text('Waleed@gmail.com'),
+        ],
+      ),
     );
   }
 }
