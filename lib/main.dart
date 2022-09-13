@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iba_fall_2022/assignment_one.dart';
 import 'package:iba_fall_2022/new_screen.dart';
 
 void main() {
@@ -16,7 +17,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(
+        title: 'Hello',
+      ),
     );
   }
 }
@@ -34,7 +37,6 @@ class _HelloPageState extends State<HelloPage> {
     return Container();
   }
 }
-
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -58,6 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   Color iconColor = Colors.grey;
+
+  TextEditingController controller = TextEditingController();
 
   void _incrementCounter() {
     setState(() {
@@ -117,9 +121,65 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Counter'),
             ),
             TextFormField(
-              onChanged: (value) {
-                print(value);
+              controller: controller,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                //
+                print(controller.text);
               },
+              child: Text('Login'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                //
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Hello'),
+                      content: Text('GOogle'),
+                      actions: [
+                        TextButton(
+                          child: Text('Yes'),
+                          onPressed: () {},
+                        ),
+                        TextButton(
+                          child: Text('No'),
+                          onPressed: () {},
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text('Alert dialog'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text('Waleed'),
+                        ),
+                        ListTile(
+                          title: Text('Waleed'),
+                        ),
+                        ListTile(
+                          title: Text('Waleed'),
+                        ),
+                        ListTile(
+                          title: Text('Waleed'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text('Bottom sheet'),
             ),
             MyWidget(
               onTap: () {},
@@ -148,19 +208,19 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final updatedCounter = await Navigator.of(context).push(
+        onPressed: () {
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => NewScreen(
                 counter: _counter,
+                onCounterUpdated: (counter) {
+                  print(counter.toString());
+                  _counter = counter;
+                  setState(() {});
+                },
               ),
             ),
           );
-          if (updatedCounter != null) {
-            setState(() {
-              _counter = updatedCounter;
-            });
-          }
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),

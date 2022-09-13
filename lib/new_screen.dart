@@ -4,9 +4,11 @@ class NewScreen extends StatefulWidget {
   const NewScreen({
     Key? key,
     required this.counter,
+    required this.onCounterUpdated,
   }) : super(key: key);
 
   final int counter;
+  final Function(int) onCounterUpdated;
 
   @override
   State<NewScreen> createState() => _NewScreenState();
@@ -40,6 +42,7 @@ class _NewScreenState extends State<NewScreen> {
                 setState(() {
                   _counter++;
                 });
+                widget.onCounterUpdated(_counter);
               },
               child: Text('Increment'),
             ),
