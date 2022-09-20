@@ -69,23 +69,29 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  User user = User(
-    name: 'Waleed',
-    email: 'waleed@gmail.com',
-  );
+  // User user = User(
+  //   name: 'Waleed',
+  //   email: 'waleed@gmail.com',
+  // );
 
   List<User> users = [
     User(
       name: 'Waleed',
       email: 'waleed@gmail.com',
+      isFav: false,
+      views: 2000,
     ),
     User(
       name: 'Waleed',
       email: 'waleed@gmail.com',
+      isFav: false,
+      views: 1500,
     ),
     User(
       name: 'Waleed',
       email: 'waleed@gmail.com',
+      isFav: false,
+      views: 3000,
     ),
   ];
 
@@ -181,6 +187,16 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text('Bottom sheet'),
             ),
+            MyCard(
+              user: User(
+                views: 1000,
+                isFav: false,
+                name: 'Waleed',
+                email: 'hello@gmail.com',
+              ),
+              onValueChanged: (value) {},
+              value: false,
+            ),
             MyWidget(
               onTap: () {},
             ),
@@ -188,17 +204,13 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListView(
                 children: users
                     .map(
-                      (user) => ListTile(
-                        title: Text(user.name),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(user.email),
-                            Text('Hello'),
-                            Text('Hello'),
-                            Text('Hello'),
-                          ],
-                        ),
+                      (user) => MyCard(
+                        user: user,
+                        onValueChanged: (bool value) {
+                          user.isFav = value;
+                          setState(() {});
+                        },
+                        value: user.isFav,
                       ),
                     )
                     .toList(),
@@ -229,6 +241,44 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+class MyCard extends StatefulWidget {
+  const MyCard({
+    Key? key,
+    required this.user,
+    required this.onValueChanged,
+    required this.value,
+  }) : super(key: key);
+
+  final User user;
+  final bool value;
+  final Function(bool) onValueChanged;
+
+  @override
+  State<MyCard> createState() => _MyCardState();
+}
+
+class _MyCardState extends State<MyCard> {
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(widget.user.name),
+      subtitle: Text(widget.user.email),
+      trailing: InkWell(
+        onTap: () {
+          widget.onValueChanged(!widget.value);
+        },
+        child: Icon(
+          Icons.favorite,
+          color: widget.value ? Colors.red : Colors.grey,
+        ),
+      ),
+      leading: CircleAvatar(
+        child: Text(widget.user.name[0]),
+      ),
+    );
+  }
+}
+
 class MyWidget extends StatelessWidget {
   const MyWidget({
     Key? key,
@@ -254,6 +304,13 @@ class MyWidget extends StatelessWidget {
 class User {
   final String name;
   final String email;
+  bool isFav;
+  final int views;
 
-  User({required this.name, required this.email});
+  User({
+    required this.name,
+    required this.email,
+    required this.isFav,
+    required this.views,
+  });
 }
