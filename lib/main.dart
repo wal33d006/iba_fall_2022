@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iba_fall_2022/assignment_one.dart';
+import 'package:iba_fall_2022/class%20assignment/screen_two.dart';
 import 'package:iba_fall_2022/new_screen.dart';
 
 void main() {
@@ -74,6 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
   //   email: 'waleed@gmail.com',
   // );
 
+  bool myFav = false;
+
   List<User> users = [
     User(
       name: 'Waleed',
@@ -94,6 +97,13 @@ class _MyHomePageState extends State<MyHomePage> {
       views: 3000,
     ),
   ];
+
+  final _user = User(
+    views: 1000,
+    isFav: false,
+    name: 'Waleed',
+    email: 'hello@gmail.com',
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -187,18 +197,23 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               child: Text('Bottom sheet'),
             ),
-            MyCard(
-              user: User(
-                views: 1000,
-                isFav: false,
-                name: 'Waleed',
-                email: 'hello@gmail.com',
-              ),
-              onValueChanged: (value) {},
-              value: false,
-            ),
+            // MyCard(
+            //   user: _user,
+            //   onValueChanged: (value) {
+            //     _user.isFav = value;
+            //     setState(() {});
+            //   },
+            //   value: _user.isFav,
+            // ),
             MyWidget(
               onTap: () {},
+            ),
+            HelloWidget(
+              isFav: myFav,
+              onTap: () {
+                myFav = !myFav;
+                setState(() {});
+              },
             ),
             Expanded(
               child: ListView(
@@ -206,6 +221,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     .map(
                       (user) => MyCard(
                         user: user,
+                        onTap: () async {
+                          final result = await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ScreenTwo(user: user),
+                            ),
+                          );
+                          users.removeAt(users.indexOf(user));
+                          users.add(result);
+                          setState(() {});
+                        },
                         onValueChanged: (bool value) {
                           user.isFav = value;
                           setState(() {});
@@ -247,11 +272,13 @@ class MyCard extends StatefulWidget {
     required this.user,
     required this.onValueChanged,
     required this.value,
+    required this.onTap,
   }) : super(key: key);
 
   final User user;
   final bool value;
   final Function(bool) onValueChanged;
+  final VoidCallback onTap;
 
   @override
   State<MyCard> createState() => _MyCardState();
@@ -261,11 +288,12 @@ class _MyCardState extends State<MyCard> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: widget.onTap,
       title: Text(widget.user.name),
       subtitle: Text(widget.user.email),
       trailing: InkWell(
         onTap: () {
-          widget.onValueChanged(!widget.value);
+          // widget.onValueChanged(!widget.value);
         },
         child: Icon(
           Icons.favorite,
@@ -313,4 +341,26 @@ class User {
     required this.isFav,
     required this.views,
   });
+}
+
+class HelloWidget extends StatelessWidget {
+  const HelloWidget({
+    Key? key,
+    required this.isFav,
+    required this.onTap,
+  }) : super(key: key);
+
+  final VoidCallback onTap;
+  final bool isFav;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Icon(
+        Icons.favorite,
+        color: isFav ? Colors.red : Colors.grey,
+      ),
+    );
+  }
 }
