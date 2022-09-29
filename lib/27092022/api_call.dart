@@ -44,10 +44,36 @@ class _ApiCallState extends State<ApiCall> {
 
 class MyUser {
   final String name;
+  final Company company;
 
-  MyUser({required this.name});
+  MyUser({
+    required this.name,
+    required this.company,
+  });
 
   static MyUser fromJson(Map<String, dynamic> json) {
-    return MyUser(name: json['name']);
+    return MyUser(
+      name: json['name'],
+      company: Company.fromJson(
+        json['company'],
+      ),
+    );
+  }
+}
+
+class Company {
+  final String name;
+  final String catchPhrase;
+
+  Company({
+    required this.name,
+    required this.catchPhrase,
+  });
+
+  static Company fromJson(Map<String, dynamic> json) {
+    return Company(
+      name: json['name'],
+      catchPhrase: json['catchPhrase'],
+    );
   }
 }
