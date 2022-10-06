@@ -16,6 +16,15 @@ class _AnimationPageState extends State<AnimationPage> with SingleTickerProvider
     super.initState();
     controller = AnimationController(vsync: this, duration: const Duration(seconds: 1));
     animation = Tween<double>(begin: 0, end: 200).animate(controller);
+    animation.addStatusListener((status) {
+      print(status);
+      if(status == AnimationStatus.completed) {
+        controller.reverse();
+      }
+      if(status == AnimationStatus.dismissed) {
+        controller.forward();
+      }
+    });
     animation.addListener(() {
       print(animation.value);
       setState(() {});
@@ -25,7 +34,7 @@ class _AnimationPageState extends State<AnimationPage> with SingleTickerProvider
     //   ..addListener(() {
     //     setState(() {});
     //   });
-    // controller.forward();
+    controller.forward();
   }
 
   @override
@@ -37,7 +46,7 @@ class _AnimationPageState extends State<AnimationPage> with SingleTickerProvider
           children: [
             ElevatedButton(
                 onPressed: () {
-                  controller.forward();
+                  // controller.forward();
                 },
                 child: Text('Forward')),
             Container(
@@ -51,7 +60,7 @@ class _AnimationPageState extends State<AnimationPage> with SingleTickerProvider
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.reverse();
+          // controller.reverse();
         },
       ),
     );
