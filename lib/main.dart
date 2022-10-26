@@ -5,9 +5,15 @@ import 'package:iba_fall_2022/animations/animation_page.dart';
 import 'package:iba_fall_2022/assignment_one.dart';
 import 'package:iba_fall_2022/class%20assignment/screen_two.dart';
 import 'package:iba_fall_2022/new_screen.dart';
+import 'package:iba_fall_2022/state_management/counter_model.dart';
+import 'package:iba_fall_2022/state_management/counter_page.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    child: const MyApp(),
+    create: (_) => Counter(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const MyAnimatedPage(),
+      home: const CounterPage(),
     );
   }
 }
