@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iba_fall_2022/27092022/api_call.dart';
-import 'package:iba_fall_2022/animations/animated_widget.dart';
-import 'package:iba_fall_2022/animations/animation_page.dart';
-import 'package:iba_fall_2022/assignment_one.dart';
 import 'package:iba_fall_2022/class%20assignment/screen_two.dart';
 import 'package:iba_fall_2022/new_screen.dart';
 import 'package:iba_fall_2022/state_management/counter_model.dart';
