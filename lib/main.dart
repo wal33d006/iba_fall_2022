@@ -163,8 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () async {
 
-                context.read<MyAuthModel>().signIn(userId, passWord);
-
                 final user = <String, dynamic>{"first": "Ada", "last": "Lovelace", "born": 1815};
 
 // Add a new document with a generated ID
