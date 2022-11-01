@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "224752994038",
+    "project_id": "iba-fall-2022-54392",
+    "storage_bucket": "iba-fall-2022-54392.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224752994038:android:a68fd12c2ea91bc2ca0ed7",
+        "android_client_info": {
+          "package_name": "com.example.iba_fall_2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224752994038-kj335nataqj6jo9gdoo9jvk9vkj0cuen.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgQUWTETQ8kTYhIq2CdWE0SF9D67HHpTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224752994038-kj335nataqj6jo9gdoo9jvk9vkj0cuen.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

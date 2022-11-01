@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:iba_fall_2022/class%20assignment/screen_two.dart';
 import 'package:iba_fall_2022/new_screen.dart';
@@ -5,7 +7,10 @@ import 'package:iba_fall_2022/state_management/counter_model.dart';
 import 'package:iba_fall_2022/state_management/counter_page.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(ChangeNotifierProvider(
     child: const MyApp(),
     create: (_) => Counter(),
@@ -23,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const CounterPage(),
+      home: const MyHomePage(title: ''),
     );
   }
 }
@@ -70,6 +75,19 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() {
     setState(() {
       _counter++;
+    });
+  }
+
+  final db = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    db.collection("users").get().then((event) {
+      for (var doc in event.docs) {
+        print("${doc.data()['first']}");
+      }
     });
   }
 
@@ -143,9 +161,14 @@ class _MyHomePageState extends State<MyHomePage> {
               controller: controller,
             ),
             ElevatedButton(
-              onPressed: () {
-                //
-                print(controller.text);
+              onPressed: () async {
+
+                context.read<MyAuthModel>().signIn(userId, passWord);
+
+                final user = <String, dynamic>{"first": "Ada", "last": "Lovelace", "born": 1815};
+
+// Add a new document with a generated ID
+                await db.collection("users").add(user);
               },
               child: Text('Login'),
             ),
