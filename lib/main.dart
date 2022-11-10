@@ -5,6 +5,8 @@ import 'package:iba_fall_2022/class%20assignment/screen_two.dart';
 import 'package:iba_fall_2022/new_screen.dart';
 import 'package:iba_fall_2022/state_management/counter_model.dart';
 import 'package:iba_fall_2022/state_management/counter_page.dart';
+import 'package:iba_fall_2022/users_list/users_list_page.dart';
+import 'package:iba_fall_2022/users_list/users_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -13,7 +15,7 @@ void main() async {
 
   runApp(ChangeNotifierProvider(
     child: const MyApp(),
-    create: (_) => Counter(),
+    create: (_) => UsersProvider(),
   ));
 }
 
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const CounterPage(),
+      home: const UsersListPage(),
     );
   }
 }
@@ -162,7 +164,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             ElevatedButton(
               onPressed: () async {
-
                 final user = <String, dynamic>{"first": "Ada", "last": "Lovelace", "born": 1815};
 
 // Add a new document with a generated ID
