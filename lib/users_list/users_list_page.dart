@@ -10,11 +10,22 @@ class UsersListPage extends StatefulWidget {
 }
 
 class _UsersListPageState extends State<UsersListPage> {
+  String hello = '';
+  String? google;
+
+  Color? favColor;
+
+  bool isLoading = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     context.read<UsersProvider>().fetchUsers();
+    google = 'google';
+    hello = google ?? '';
+    hello = isLoading ? google! : '';
+    hello = google != null ? google! : '';
   }
 
   @override

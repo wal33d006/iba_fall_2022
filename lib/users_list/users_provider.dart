@@ -7,7 +7,7 @@ class UsersProvider with ChangeNotifier {
 
   bool isLoading = false;
 
-  final UsersRepository _usersRepository = UsersRepository();
+  final UsersRepository _usersRepository = FirebaseUsersRepository();
 
   void fetchUsers() async {
     isLoading = true;
