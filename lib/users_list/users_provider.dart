@@ -3,19 +3,19 @@ import 'package:iba_fall_2022/users_list/user_json.dart';
 import 'package:iba_fall_2022/users_list/users_repository.dart';
 
 class UsersProvider with ChangeNotifier {
+  UsersProvider(this._usersRepository);
+
   List<UserJson> users = [];
 
-  bool isUsersFetching = false;
+  final UsersRepository _usersRepository;
 
-  final UsersRepository _usersRepository = FirebaseUsersRepository();
+  bool isUsersFetching = false;
 
   void fetchUsers() async {
     isUsersFetching = true;
     notifyListeners();
-    users = await _usersRepository.getUserList();
-    isUsersFetching = false;
     users = await _usersRepository.fetchUsersList();
-    isLoading = false;
+    isUsersFetching = false;
     notifyListeners();
   }
 }

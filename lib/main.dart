@@ -1,21 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:iba_fall_2022/class%20assignment/screen_two.dart';
 import 'package:iba_fall_2022/new_screen.dart';
 import 'package:iba_fall_2022/state_management/counter_model.dart';
 import 'package:iba_fall_2022/state_management/counter_page.dart';
 import 'package:iba_fall_2022/users_list/users_list_page.dart';
 import 'package:iba_fall_2022/users_list/users_provider.dart';
+import 'package:iba_fall_2022/users_list/users_repository.dart';
 import 'package:provider/provider.dart';
+
+final getIt = GetIt.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
+  getIt.registerSingleton<UsersRepository>(MockUsersRepository());
+
   runApp(ChangeNotifierProvider(
     child: const MyApp(),
-    create: (_) => UsersProvider(),
+    create: (_) => UsersProvider(getIt()),
   ));
 }
 
