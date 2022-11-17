@@ -19,20 +19,15 @@ class _UsersListPageState extends State<UsersListPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     context.read<UsersProvider>().fetchUsers();
-    google = 'google';
-    hello = google ?? '';
-    hello = isLoading ? google! : '';
-    hello = google != null ? google! : '';
   }
 
   @override
   Widget build(BuildContext context) {
     final users = context.watch<UsersProvider>().users;
     return Scaffold(
-      body: context.watch<UsersProvider>().isLoading
+      body: context.watch<UsersProvider>().isUsersFetching
           ? const Center(
               child: CircularProgressIndicator(),
             )
