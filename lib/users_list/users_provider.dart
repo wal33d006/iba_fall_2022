@@ -12,8 +12,10 @@ class UsersProvider with ChangeNotifier {
   void fetchUsers() async {
     isUsersFetching = true;
     notifyListeners();
-    users = await _usersRepository.fetchUsersList();
+    users = await _usersRepository.getUserList();
     isUsersFetching = false;
+    users = await _usersRepository.fetchUsersList();
+    isLoading = false;
     notifyListeners();
   }
 }
