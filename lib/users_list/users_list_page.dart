@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:iba_fall_2022/users_list/users_provider.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +20,12 @@ class _UsersListPageState extends State<UsersListPage> {
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    context.read<UsersProvider>().fetchUsers();
+    // context.read<UsersProvider>().fetchUsers();
+    FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+
+    firebaseMessaging.subscribeToTopic('news');
   }
 
   @override
