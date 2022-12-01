@@ -1,21 +1,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:iba_fall_2022/class%20assignment/screen_two.dart';
 import 'package:iba_fall_2022/new_screen.dart';
+import 'package:iba_fall_2022/revision/data/mock_user_repository.dart';
+import 'package:iba_fall_2022/revision/domain/user_repository.dart';
+import 'package:iba_fall_2022/revision/user_list/revision_page.dart';
 import 'package:iba_fall_2022/state_management/counter_model.dart';
 import 'package:iba_fall_2022/state_management/counter_page.dart';
 import 'package:iba_fall_2022/users_list/users_list_page.dart';
 import 'package:iba_fall_2022/users_list/users_provider.dart';
+import 'package:iba_fall_2022/users_list/users_repository.dart';
 import 'package:provider/provider.dart';
+
+import 'revision/user_list/revision_provider.dart';
+
+final getIt = GetIt.instance;
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  runApp(ChangeNotifierProvider(
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  /// Convert your data point here
+  getIt.registerSingleton<UsersRepository>(MockUsersRepository());
+  getIt.registerSingleton<UserRepository>(MockUserRepository());
+
+  runApp(MultiProvider(
+    providers: [
+      Provider<RevisionProvider>(
+        create: (_) => RevisionProvider(
+          getIt(),
+        ),
+      ),
+    ],
     child: const MyApp(),
-    create: (_) => UsersProvider(),
   ));
 }
 
@@ -30,7 +60,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const UsersListPage(),
+      home: const RevisionPage(),
     );
   }
 }
